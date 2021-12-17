@@ -130,7 +130,7 @@ class Attention(nn.Module):
                     view(B, C//2, -1).view(B, self.num_heads//2, C // self.num_heads, -1).transpose(-1, -2)
                 x2 = (attn2 @ v2).transpose(1, 2).reshape(B, N, C//2)
 
-                x= torch.cat([x1,x2], dim=-1)
+                x = torch.cat([x1,x2], dim=-1)
         else:
             kv = self.kv(x).reshape(B, -1, 2, self.num_heads, C // self.num_heads).permute(2, 0, 3, 1, 4)
             k, v = kv[0], kv[1]
@@ -385,7 +385,7 @@ def _conv_filter(state_dict, patch_size=16):
 def shunted_t(pretrained=False, **kwargs):
     model = ShuntedTransformer(
         patch_size=4, embed_dims=[64, 128, 256, 512], num_heads=[2, 4, 8, 16], mlp_ratios=[8, 8, 4, 4], qkv_bias=True,
-        norm_layer=partial(nn.LayerNorm, eps=1e-6), depths=[1, 2, 4, 1], sr_ratios=[8, 4, 2, 1], num_conv=0
+        norm_layer=partial(nn.LayerNorm, eps=1e-6), depths=[1, 2, 4, 1], sr_ratios=[8, 4, 2, 1], num_conv=0,
         **kwargs)
     model.default_cfg = _cfg()
 
